@@ -36,3 +36,4 @@ tests:
     - tasty-hedgehog
     - hedgehog
     - database-processing
+    - containers
