@@ -6,7 +6,7 @@ import Test.Tasty.HUnit
 
 import DbProcessing (filterDbDate, DatabaseItem(..))
 
-{-# ANN module "HLint: Use camelCase" #-}
+{-# ANN module "HLint: ignore Use camelCase" #-}
 
 theDatabase :: [DatabaseItem]
 theDatabase =
