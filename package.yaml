@@ -1,0 +1,38 @@
+name:                database-processing
+version:             0.1.0.0
+#synopsis:
+#description:
+license:             BSD3
+author:              Eric Zoerner
+maintainer:          eric.zoerner@gmail.com
+copyright:           2018 Eric Zoerner
+category:            Example
+extra-source-files:
+- README.md
+
+ghc-options:
+- "-Wall"
+- "-Werror"
+
+dependencies:
+  - base
+  - time
+
+library:
+  source-dirs: src
+  exposed-modules:
+  - DbProcessing
+
+tests:
+  test:
+    main: "Driver.hs"
+    source-dirs: "test"
+    dependencies:
+    - base
+    - tasty
+    - tasty-discover
+    - tasty-hunit
+    - tasty-quickcheck
+    - tasty-hedgehog
+    - hedgehog
+    - database-processing
