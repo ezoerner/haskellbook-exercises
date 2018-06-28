@@ -1,8 +1,8 @@
 module DbProcessingSpec where
 
 import Data.Time
-import qualified Data.Set as Set
 import Test.Tasty.HUnit
+import Data.List (sort)
 
 import DbProcessing (filterDbDate, DatabaseItem(..))
 
@@ -20,9 +20,9 @@ theDatabase =
                 (secondsToDiffTime 34123))
     ]
 
+
 unit_filterDbDate :: IO ()
-unit_filterDbDate = Set.fromList (filterDbDate theDatabase) @?=
-    Set.fromList
-        [ UTCTime (fromGregorian 1921 5 1) (secondsToDiffTime 34123)
-        , UTCTime (fromGregorian 1911 5 1) (secondsToDiffTime 34123)
-        ]
+unit_filterDbDate = sort (filterDbDate theDatabase) @?=
+    sort [ UTCTime (fromGregorian 1921 5 1) (secondsToDiffTime 34123)
+         , UTCTime (fromGregorian 1911 5 1) (secondsToDiffTime 34123)
+         ]
