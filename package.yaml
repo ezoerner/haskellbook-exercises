@@ -10,9 +10,7 @@ category:            Example
 extra-source-files:
 - README.md
 
-ghc-options:
-- "-Wall"
-- "-Werror"
+ghc-options: -Wall -Werror -Wno-type-defaults
 
 dependencies:
   - base
