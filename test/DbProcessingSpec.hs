@@ -10,24 +10,26 @@ import DbProcessing
 
 theDatabase :: [DatabaseItem]
 theDatabase =
-    [ DbDate (UTCTime
-                (fromGregorian 1911 5 1)
-                (secondsToDiffTime 34123))
+    [ DbDate time1
     , DbNumber 9001
     , DbString "Hello, world!"
-    , DbDate (UTCTime
-                (fromGregorian 1921 5 1)
-                (secondsToDiffTime 34123))
+    , DbDate time2
     , DbNumber 792
     , DbNumber 83
     ]
 
+diffTime :: DiffTime
+diffTime = secondsToDiffTime 34123
+
+time1 :: UTCTime
+time1 = UTCTime (fromGregorian 1911 5 1) diffTime
+
+time2 :: UTCTime
+time2 = UTCTime  (fromGregorian 1921 5 1) diffTime
 
 unit_filterDbDate :: IO ()
 unit_filterDbDate = sort (filterDbDate theDatabase) @?=
-    sort [ UTCTime (fromGregorian 1921 5 1) (secondsToDiffTime 34123)
-         , UTCTime (fromGregorian 1911 5 1) (secondsToDiffTime 34123)
-         ]
+    sort [time1, time2]
 
 unit_sumDb :: IO ()
 unit_sumDb = sumDb theDatabase @?= 9876
