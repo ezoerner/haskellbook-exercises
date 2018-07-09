@@ -21,3 +21,15 @@ data DatabaseItem = DbString String
 --    of the UTCTime values inside them.
 filterDbDate :: [DatabaseItem] -> [UTCTime]
 filterDbDate = undefined
+
+-- | Write a function that sums all of the DbNumber values.
+sumDb :: [DatabaseItem] -> Integer
+sumDb = undefined
+
+-- | Write a function that gets the average of the DbNumber values.
+
+-- You'll probably need to use fromIntegral
+-- to get from Integer to Double.
+
+avgDb :: [DatabaseItem] -> Double
+avgDb = undefined
