@@ -6,16 +6,13 @@ Maintainer  : eric.zoerner@gmail.com
 Exercise "Database Processing" from Chapter 10
 of /Haskell Programming from First Principles/
 -}
-module DbProcessing
-    ( DatabaseItem (..)
-    , filterDbDate
-    , sumDb
-    , avgDb
-    ) where
+
+module DbProcessing where
 
 import Data.List (foldl')
-import Data.Maybe (mapMaybe)
 import Data.Time
+import Data.Maybe (mapMaybe)
+import Data.Monoid
 
 data DatabaseItem = DbString String
                   | DbNumber Integer
@@ -34,14 +31,29 @@ filterDbDate =
     mapMaybe getTime
 
 -- | Write a function that sums all of the DbNumber values.
+-- We want to reduce some shit, get an integer
 sumDb :: [DatabaseItem] -> Integer
-sumDb = sum . nums
+sumDb [] = 0
+sumDb (DbNumber num : xs) = num + sumDb xs
+sumDb (_ : xs) = sumDb xs
+
+-- The same, but with higher order functions, yo
+sumDb' :: [DatabaseItem] -> Integer
+sumDb' items = sum $ mapMaybe f items
+  where f :: DatabaseItem -> Maybe Integer
+        f (DbNumber x) = Just x
+        f _          = Nothing
+
+
+-- Monoid -- binary operation with an identity
+-- Addition under positive numbers is a monoid -- 1 + 0 = 1; 1 + 1 = 2; ...
+sumDb'' :: (Foldable t) => t DatabaseItem -> Integer
+sumDb'' = getSum . foldMap (\x -> case x of DbNumber y -> Sum y; _ -> 0)
 
 -- | Write a function that gets the average of the DbNumber values.
 
 -- You'll probably need to use fromIntegral
 -- to get from Integer to Double.
-
 avgDb :: [DatabaseItem] -> Double
 avgDb =
   let
@@ -50,11 +62,3 @@ avgDb =
     avg total count = total / count
   in
     uncurry avg . foldl' f (0,0)
-
-nums :: [DatabaseItem] -> [Integer]
-nums =
-  let
-    getInteger (DbNumber n) = Just n
-    getInteger _ = Nothing
-  in
-    mapMaybe getInteger
