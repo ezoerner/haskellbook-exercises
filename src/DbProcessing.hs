@@ -9,10 +9,10 @@ of /Haskell Programming from First Principles/
 
 module DbProcessing where
 
+import Data.List (foldl')
 import Data.Time
 import Data.Maybe (mapMaybe)
 import Data.Monoid
-
 
 data DatabaseItem = DbString String
                   | DbNumber Integer
@@ -23,7 +23,12 @@ data DatabaseItem = DbString String
 --    and returns a list
 --    of the UTCTime values inside them.
 filterDbDate :: [DatabaseItem] -> [UTCTime]
-filterDbDate = undefined
+filterDbDate =
+  let
+    getTime (DbDate t) = Just t
+    getTime _ = Nothing
+  in
+    mapMaybe getTime
 
 -- | Write a function that sums all of the DbNumber values.
 -- We want to reduce some shit, get an integer
@@ -50,4 +55,10 @@ sumDb'' = getSum . foldMap (\x -> case x of DbNumber y -> Sum y; _ -> 0)
 -- You'll probably need to use fromIntegral
 -- to get from Integer to Double.
 avgDb :: [DatabaseItem] -> Double
-avgDb = undefined
+avgDb =
+  let
+    f (sumSoFar, cntSoFar) (DbNumber n) = (sumSoFar + fromInteger n, cntSoFar + 1)
+    f (sumSoFar, cntSoFar) _ = (sumSoFar, cntSoFar)
+    avg total count = total / count
+  in
+    uncurry avg . foldl' f (0,0)
