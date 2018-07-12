@@ -1,7 +1,7 @@
 {-|
 Module      : DbProcessing
 Description : Exercise "Database Processing" from the Haskell Book
-Maintainer  : the.mob@nike.com
+Maintainer  : eric.zoerner@gmail.com
 
 Exercise "Database Processing" from Chapter 10
 of /Haskell Programming from First Principles/
