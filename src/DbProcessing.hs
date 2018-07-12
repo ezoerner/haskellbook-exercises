@@ -6,7 +6,6 @@ Maintainer  : eric.zoerner@gmail.com
 Exercise "Database Processing" from Chapter 10
 of /Haskell Programming from First Principles/
 -}
-
 module DbProcessing where
 
 import Data.List (foldl')
@@ -44,10 +43,9 @@ sumDb' items = sum $ mapMaybe f items
         f (DbNumber x) = Just x
         f _          = Nothing
 
-
 -- Monoid -- binary operation with an identity
 -- Addition under positive numbers is a monoid -- 1 + 0 = 1; 1 + 1 = 2; ...
-sumDb'' :: (Foldable t) => t DatabaseItem -> Integer
+sumDb'' :: Foldable t => t DatabaseItem -> Integer
 sumDb'' = getSum . foldMap (\x -> case x of DbNumber y -> Sum y; _ -> 0)
 
 -- | Write a function that gets the average of the DbNumber values.
